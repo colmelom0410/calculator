@@ -25,10 +25,26 @@ body {
 }
 #equation{
     margin-bottom: 2px;
-    flex: 1;
+    height: 70%;
+    border: 1px solid red;
+}
+#equationOne{
+    border: 1px solid yellow;
+    margin: 0;
+    text-align: right;
+}
+#sign{
+    border: 1px solid green;
+    margin: 0;
+}
+#equationTwo{
+    border: 1px solid blue;
+    margin: 0;
+    text-align: right;
 }
 #answer{
-    flex: 1;
+    height: 30%;
+    border: 1px solid white;
 }
 .btn-container{
     height: 200px;
