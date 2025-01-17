@@ -9,18 +9,23 @@ const backspace = document.querySelector("#C");
 const equal = document.querySelector("#equal");
 const displayResult = document.querySelector("#answer");
 const sign = document.querySelector("#sign");
-let displayEquation = [];
-let monomial = [];
+let num1 = '';
+let num2 = '';
 let polyNomial = [];
+let first = true;
 
 //get the value of buttons
 numberBtn.forEach (number => {
     number.addEventListener("click", () => {
         displayResult.textContent = "";
-        displayEquation += number.textContent;
-        display.textContent = displayEquation;
-        //store the value in the monomial array
-        monomial += number.textContent;
+        if (first){
+            num1 += number.textContent;
+            display.textContent = num1;
+        }
+        else{
+            num2 += number.textContent
+            display1.textContent = num2;
+        };
     })
 });
 
@@ -28,66 +33,72 @@ numberBtn.forEach (number => {
 operatorBtn.forEach (operator => {
     operator.addEventListener("click", () => {
         //push the value of monomial array into the polynomial array
-        if(monomial.length == 1){ //check if the monomial is not empty
-            polyNomial.push(parseFloat(monomial));}
-        sign.textContent = operator.textContent;
-        monomial = []; //empty the monomial array for the next value
-        polyNomial.push(operator.textContent); //push the operator to the polynomial
-        display.textContent = displayEquation;
-        
+        if(num1 == ''){
+            first = true;
+        }
+        else{
+            first = false;
+            sign.textContent = operator.textContent;
+            polyNomial.push(operator.textContent); //push the operator to the polynomial
+        }
     })
 });
 
+
 //reset all
 reset.addEventListener("click", () => {
-    displayEquation = [];
-    monomial = [];
+    num1 = [];
+    num2 = [];
+    first = true;
+    sign.textContent = "";
     polyNomial =[];
     displayResult.textContent = "";
-    display.textContent = displayEquation;
+    display.textContent = num1;
+    display1.textContent = num2;
 });
 
 backspace.addEventListener("click", () => {
-    displayEquation = displayEquation.slice(0,-1);
-    monomial = monomial.slice(0,-1);
-    display.textContent = displayEquation;
+    if (first){
+        num1 = num1.slice(0,-1);
+        display.textContent = num1;
+    }
+    else{
+        num2 = num2.slice(0,-1);
+        display1.textContent = num2;
+    }
+    
 });
 
 //call the operation function
 equal.addEventListener("click", operate);
 
 function operate(){
-    polyNomial.push(parseFloat(monomial));
+    polyNomial.push(parseFloat(num1));
+    polyNomial.push(parseFloat(num2));
     const multiply = polyNomial.includes("×");
     const divide = polyNomial.includes("÷");
     const add = polyNomial.includes("+");
     const sub = polyNomial.includes("-");
-    let result;
-        if(multiply){
-            result = polyNomial
-                .filter(item => typeof item === "number")
-                .reduce((sum,number)=> (sum*number))
-        }
-        else if (divide){
-            result = polyNomial
-                .filter(item => typeof item === "number")
-                .reduce((sum,number)=> (sum/number))
-        }
-        else if(add){
-            result = polyNomial
-                .filter(item => typeof item === "number")
-                .reduce((sum,number)=> (sum + number),0)
-        }
-        else if (sub){
-            result = polyNomial
-                .filter(item => typeof item === "number")
-                .reduce((sum,number)=> (sum - number),0)
-        }
-    
+    let result = polyNomial.filter(item => typeof item === "number")
+    if(multiply){
+        result = result.reduce((product,number)=> (product*number))
+    }
+    else if (divide){
+        result = result.reduce((quotient,number)=> (quotient/number))
+    }
+    else if(add){
+        result = result.reduce((sum,number)=> (sum + number))
+    }
+    else if (sub){
+        result = result.reduce((diff,number)=> (diff - number))
+    }
+
     displayResult.textContent = result;
     polyNomial = [];
-    polyNomial.push(result);
-    displayEquation = [];
-    display.textContent = displayEquation;
-    monomial = [];
+    num1 = [];
+    num2 = [];
+    first = true;
+    display.textContent = num1;
+    display1.textContent = num2;
+    sign.textContent = "";
 }
