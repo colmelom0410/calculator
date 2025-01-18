@@ -20,11 +20,11 @@ numberBtn.forEach (number => {
         displayResult.textContent = "";
         if (first){
             num1 += number.textContent;
-            display.textContent = num1;
+            display.textContent = num1; //store the first value in num1
         }
         else{
             num2 += number.textContent
-            display1.textContent = num2;
+            display1.textContent = num2; //store the second value in num2
         };
     })
 });
@@ -32,9 +32,9 @@ numberBtn.forEach (number => {
 //get the operators
 operatorBtn.forEach (operator => {
     operator.addEventListener("click", () => {
-        //push the value of monomial array into the polynomial array
+        //input operator only when num1 is not empty.
         if(num1 == ''){
-            first = true;
+            first = true; 
         }
         else{
             first = false;
@@ -47,8 +47,8 @@ operatorBtn.forEach (operator => {
 
 //reset all
 reset.addEventListener("click", () => {
-    num1 = [];
-    num2 = [];
+    num1 = '';
+    num2 = '';
     first = true;
     sign.textContent = "";
     polyNomial =[];
@@ -58,6 +58,7 @@ reset.addEventListener("click", () => {
 });
 
 backspace.addEventListener("click", () => {
+    //check if currently we're storing the value in num1 or num2 before backspacing
     if (first){
         num1 = num1.slice(0,-1);
         display.textContent = num1;
@@ -69,12 +70,14 @@ backspace.addEventListener("click", () => {
     
 });
 
-//call the operation function
+//call the operate function
 equal.addEventListener("click", operate);
 
 function operate(){
+    // push the num1 and num2 into the Polynomial array
     polyNomial.push(parseFloat(num1));
     polyNomial.push(parseFloat(num2));
+    // determine if a sign is included in the array and use .reduce() to calculate
     const multiply = polyNomial.includes("×");
     const divide = polyNomial.includes("÷");
     const add = polyNomial.includes("+");
@@ -94,9 +97,10 @@ function operate(){
     }
 
     displayResult.textContent = result;
+    // empty the value of num1, num2, and polyNomial for the next equation
     polyNomial = [];
-    num1 = [];
-    num2 = [];
+    num1 = '';
+    num2 = '';
     first = true;
     display.textContent = num1;
     display1.textContent = num2;
