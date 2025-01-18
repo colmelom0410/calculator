@@ -22,6 +22,7 @@ body {
     display: flex;
     flex-direction: column;
     background-color: #272831;
+    overflow: hidden;
 }
 #equation{
     margin-bottom: 2px;
