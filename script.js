@@ -11,6 +11,7 @@ const displayResult = document.querySelector("#answer");
 const sign = document.querySelector("#sign");
 let num1 = '';
 let num2 = '';
+let operatorSign = '';
 let polyNomial = [];
 let first = true;
 
@@ -37,9 +38,10 @@ operatorBtn.forEach (operator => {
             first = true; 
         }
         else{
+            operatorSign = ''; //reset operatorSign
             first = false;
-            sign.textContent = operator.textContent;
-            polyNomial.push(operator.textContent); //push the operator to the polynomial
+            operatorSign += operator.textContent; //store new operator to operatorSign;
+            sign.textContent = operatorSign;
         }
     })
 });
@@ -49,6 +51,7 @@ operatorBtn.forEach (operator => {
 reset.addEventListener("click", () => {
     num1 = '';
     num2 = '';
+    operatorSign = '';
     first = true;
     sign.textContent = "";
     polyNomial =[];
@@ -76,6 +79,7 @@ equal.addEventListener("click", operate);
 function operate(){
     // push the num1 and num2 into the Polynomial array
     polyNomial.push(parseFloat(num1));
+    polyNomial.push(operatorSign); //push the operator to the polynomial
     polyNomial.push(parseFloat(num2));
     // determine if a sign is included in the array and use .reduce() to calculate
     const multiply = polyNomial.includes("×");
@@ -97,10 +101,11 @@ function operate(){
     }
 
     displayResult.textContent = result;
-    // empty the value of num1, num2, and polyNomial for the next equation
+    // empty the value of num1, num2, operatorSign, and polyNomial for the next equation
     polyNomial = [];
     num1 = '';
     num2 = '';
+    operatorSign = '';
     first = true;
     display.textContent = num1;
     display1.textContent = num2;
